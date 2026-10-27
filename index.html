@@ -36,6 +36,22 @@
     .slider { max-width: 560px; margin: 0 auto; }
     .slider img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; background: #dde3ea; display: block; }
     #gPage { text-align: center; margin-top: 8px; color: #555; font-size: 0.9rem; }
+
+    #chatToggle {
+      position: fixed; right: 20px; bottom: 20px; z-index: 20;
+      border: none; border-radius: 999px; padding: 14px 22px;
+      background: #ff7b00; color: #fff; font-size: 1rem; font-weight: bold;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+    #chatToggle:hover { background: #e66f00; }
+    #chatPanel {
+      position: fixed; right: 20px; bottom: 80px; z-index: 20;
+      width: 360px; height: 520px; max-width: calc(100vw - 24px); max-height: calc(100vh - 100px);
+      border-radius: 14px; overflow: hidden; background: #fff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    #chatPanel iframe { width: 100%; height: 100%; border: 0; display: block; }
+    #chatPanel[hidden] { display: none; }
     header { grid-area: header; }
     nav { grid-area: nav; }
     #products { grid-area: section; }
@@ -191,7 +207,22 @@
     </footer>
   </div>
 
+  <button id="chatToggle">💬 에이전트와 채팅</button>
+  <div id="chatPanel" hidden>
+    <iframe id="chatFrame" title="제주 여행 에이전트 채팅"></iframe>
+  </div>
+
   <script>
+    const chatToggle = document.getElementById('chatToggle');
+    const chatPanel = document.getElementById('chatPanel');
+    const chatFrame = document.getElementById('chatFrame');
+    chatToggle.addEventListener('click', () => {
+      const opening = chatPanel.hidden;
+      if (opening && !chatFrame.src) chatFrame.src = 'agent.html';
+      chatPanel.hidden = !opening;
+      chatToggle.textContent = opening ? '✖ 채팅 닫기' : '💬 에이전트와 채팅';
+    });
+
     let likes = 0;
     const likeCount = document.getElementById('likeCount');
     document.getElementById('likeBtn').addEventListener('click', () => {
