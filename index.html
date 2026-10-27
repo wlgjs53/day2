@@ -25,8 +25,20 @@
         "nav     nav"
         "section aside"
         "article aside"
+        "gallery gallery"
         "footer  footer";
     }
+    #gallery { grid-area: gallery; background: #fff; border-radius: 12px; padding: 18px 20px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06); }
+    .search { display: flex; gap: 8px; margin-bottom: 8px; }
+    .search input { flex: 1; padding: 10px 12px; font-size: 1rem; border: 1px solid #c9d1d9; border-radius: 8px; }
+    .search button { padding: 10px 20px; font-size: 1rem; border: none; border-radius: 8px; background: #2f6f3e; color: #fff; cursor: pointer; }
+    #gStatus { min-height: 1.5em; color: #555; font-size: 0.92rem; margin-bottom: 10px; }
+    .slider { display: flex; align-items: center; gap: 8px; }
+    .arrow { flex: none; width: 40px; height: 40px; border: none; border-radius: 50%; background: #2f6f3e; color: #fff; font-size: 1.1rem; cursor: pointer; }
+    .arrow:disabled { background: #b8c4d0; cursor: default; }
+    .row { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; min-width: 0; }
+    .row img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; background: #dde3ea; display: block; }
+    #gPage { text-align: center; margin-top: 8px; color: #555; font-size: 0.9rem; }
     header { grid-area: header; }
     nav { grid-area: nav; }
     #products { grid-area: section; }
@@ -109,9 +121,10 @@
     @media (max-width: 720px) {
       .page {
         grid-template-columns: 1fr;
-        grid-template-areas: "header" "nav" "section" "article" "aside" "footer";
+        grid-template-areas: "header" "nav" "section" "article" "aside" "gallery" "footer";
       }
       .grid { grid-template-columns: 1fr; }
+      .row { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -126,6 +139,7 @@
       <a href="#products">🛒 대표 특산물</a>
       <a href="#story">📖 제주의 맛 이야기</a>
       <a href="#season">📅 제철 달력</a>
+      <a href="#gallery">🖼️ 사진 검색</a>
     </nav>
 
     <section id="products">
@@ -163,6 +177,21 @@
       <button id="likeBtn" class="like-btn">❤️ 좋아요 <span id="likeCount">0</span></button>
     </aside>
 
+    <section id="gallery">
+      <h2>🖼️ 제주 사진 검색</h2>
+      <div class="search">
+        <input id="gQuery" type="text" placeholder="검색어 입력 (예: jeju, tangerine)">
+        <button id="gSearch">검색</button>
+      </div>
+      <div id="gStatus">검색어를 입력하면 사진을 5장씩 보여드려요.</div>
+      <div class="slider">
+        <button class="arrow" id="gPrev" disabled aria-label="이전">◀</button>
+        <div class="row" id="gRow"></div>
+        <button class="arrow" id="gNext" disabled aria-label="다음">▶</button>
+      </div>
+      <div id="gPage"></div>
+    </section>
+
     <footer>
       © 2026 제주 특산물 홍보관 · 제철과 가격은 변동될 수 있으니 구매 전 확인해 주세요.
     </footer>
@@ -175,6 +204,54 @@
       likes++;
       likeCount.textContent = likes;
     });
+
+    // 사진 검색 슬라이더 (API Key는 서버의 /api/pixabay 가 환경변수로 처리)
+    const PER_SLIDE = 5;
+    const gQuery = document.getElementById('gQuery');
+    const gStatus = document.getElementById('gStatus');
+    const gRow = document.getElementById('gRow');
+    const gPage = document.getElementById('gPage');
+    const gPrev = document.getElementById('gPrev');
+    const gNext = document.getElementById('gNext');
+    let images = [];
+    let start = 0;
+
+    function renderSlide() {
+      gRow.innerHTML = '';
+      images.slice(start, start + PER_SLIDE).forEach(img => {
+        const el = document.createElement('img');
+        el.src = img.webformatURL;
+        el.alt = img.tags;
+        el.title = img.tags;
+        gRow.appendChild(el);
+      });
+      const total = Math.ceil(images.length / PER_SLIDE);
+      gPage.textContent = images.length ? `${start / PER_SLIDE + 1} / ${total}` : '';
+      gPrev.disabled = start === 0;
+      gNext.disabled = start + PER_SLIDE >= images.length;
+    }
+
+    async function searchImages() {
+      const q = gQuery.value.trim();
+      if (!q) { gStatus.textContent = '검색어를 입력해 주세요.'; return; }
+      gStatus.textContent = '검색 중...';
+      try {
+        const res = await fetch('/api/pixabay?q=' + encodeURIComponent(q));
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `오류 (${res.status})`);
+        images = data.hits;
+        start = 0;
+        gStatus.textContent = images.length ? `"${q}" 검색 결과 ${images.length}장` : '검색 결과가 없습니다.';
+        renderSlide();
+      } catch (e) {
+        gStatus.textContent = e.message;
+      }
+    }
+
+    document.getElementById('gSearch').addEventListener('click', searchImages);
+    gQuery.addEventListener('keydown', e => { if (e.key === 'Enter') searchImages(); });
+    gPrev.addEventListener('click', () => { start = Math.max(0, start - PER_SLIDE); renderSlide(); });
+    gNext.addEventListener('click', () => { start += PER_SLIDE; renderSlide(); });
   </script>
 </body>
 </html>
