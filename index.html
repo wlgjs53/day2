@@ -3,157 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>내 취향 카드</title>
+  <title>제주 특산물 홍보관</title>
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
       font-family: sans-serif;
-      background: #f5f7fa;
+      background: #f4f8f3;
       color: #222;
+      line-height: 1.6;
     }
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 12px;
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 2fr 1fr;
+      grid-template-areas:
+        "header  header"
+        "nav     nav"
+        "section aside"
+        "article aside"
+        "footer  footer";
+    }
+    header { grid-area: header; }
+    nav { grid-area: nav; }
+    #products { grid-area: section; }
+    #story { grid-area: article; }
+    aside { grid-area: aside; }
+    footer { grid-area: footer; }
+
     header {
-      background: #2e75b6;
+      background: linear-gradient(135deg, #ff9f1c, #ff7b00);
       color: #fff;
-      padding: 24px 16px;
       text-align: center;
+      padding: 32px 16px;
+      border-radius: 12px;
     }
-    header h1 { margin: 0 0 4px; font-size: 1.6rem; }
-    header p { margin: 0; opacity: 0.9; }
+    header h1 { margin: 0 0 6px; font-size: 2rem; }
+    header p { margin: 0; opacity: 0.95; }
+
     nav {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 8px;
-      padding: 12px 16px;
       background: #fff;
-      border-bottom: 1px solid #dde3ea;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     }
-    nav button {
-      border: none;
-      background: #eef2f7;
+    nav a {
+      text-decoration: none;
+      color: #2f6f3e;
+      background: #e6f3e8;
       padding: 8px 18px;
       border-radius: 999px;
-      font-size: 1rem;
-      cursor: pointer;
+      font-weight: bold;
     }
-    nav button.active { background: #2e75b6; color: #fff; }
-    main {
-      flex: 1;
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 24px 16px;
-      display: grid;
-      gap: 16px;
-      align-content: start;
-    }
-    .card {
+    nav a:hover { background: #2f6f3e; color: #fff; }
+
+    section, article, aside {
       background: #fff;
       border-radius: 12px;
       padding: 18px 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     }
-    .card h2 { margin: 0 0 6px; font-size: 1.1rem; }
-    .card p { margin: 0; color: #555; }
-    footer {
-      padding: 16px;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #666;
-      border-top: 1px solid #dde3ea;
-      background: #fff;
-    }
-    .like-card { text-align: center; }
+    h2 { margin: 0 0 12px; font-size: 1.3rem; color: #2f6f3e; }
+
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .item { border: 1px solid #e3ebe2; border-radius: 10px; padding: 12px; background: #fbfdfb; }
+    .item .emoji { font-size: 2rem; }
+    .item h3 { margin: 4px 0; font-size: 1.05rem; }
+    .item p { margin: 0; color: #555; font-size: 0.92rem; }
+    .item .season { margin-top: 6px; font-size: 0.8rem; color: #d96b00; font-weight: bold; }
+
+    article p { margin: 0 0 10px; }
+    article ul { margin: 0; padding-left: 20px; }
+
+    aside h2 { font-size: 1.1rem; }
+    aside ul { list-style: none; margin: 0 0 16px; padding: 0; }
+    aside li { padding: 6px 0; border-bottom: 1px dashed #dde6dc; font-size: 0.92rem; }
     .like-btn {
+      width: 100%;
       border: none;
       background: #ffe3e8;
       color: #d6336c;
-      padding: 10px 24px;
+      padding: 10px;
       border-radius: 999px;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       cursor: pointer;
     }
     .like-btn:hover { background: #ffd0da; }
-    .like-btn:active { transform: scale(0.96); }
-    [hidden] { display: none !important; }
+
+    footer {
+      background: #2f6f3e;
+      color: #e6f3e8;
+      text-align: center;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        grid-template-columns: 1fr;
+        grid-template-areas: "header" "nav" "section" "article" "aside" "footer";
+      }
+      .grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>내 취향 카드</h1>
-    <p>제주대학교 홍보 문구</p>
-  </header>
+  <div class="page">
+    <header>
+      <h1>🍊 제주 특산물 홍보관</h1>
+      <p>바람과 햇살, 바다가 키운 제주의 맛을 만나보세요</p>
+    </header>
 
-  <nav id="menu">
-    <button class="active" data-tab="intro">🎓 학교 소개</button>
-    <button data-tab="life">🌊 캠퍼스 라이프</button>
-    <button data-tab="future">🚀 진로와 미래</button>
-  </nav>
+    <nav>
+      <a href="#products">🛒 대표 특산물</a>
+      <a href="#story">📖 제주의 맛 이야기</a>
+      <a href="#season">📅 제철 달력</a>
+    </nav>
 
-  <main>
-    <section data-panel="intro" class="cards">
-      <article class="card">
-        <h2>🎓 바다와 한라산 사이, 제주대학교</h2>
-        <p>
-          1. 푸른 바다와 한라산이 함께하는 대학, 제주대학교입니다.<br>
-          2. 제주의 자연 속에서 꿈을 키우는 국립대학교입니다.<br>
-          3. 지역과 세계를 잇는 인재를 길러냅니다.<br>
-          4. 배움의 깊이를 더하는 열린 캠퍼스입니다.<br>
-          5. 도전하는 학생에게 아낌없이 응원을 보냅니다.<br>
-          6. 제주의 내일을 이끌 주인공을 기다립니다.<br>
-          7. 함께 성장하는 즐거움, 제주대에서 시작하세요.
-        </p>
-      </article>
+    <section id="products">
+      <h2>🛒 대표 특산물</h2>
+      <div class="grid">
+        <div class="item"><div class="emoji">🍊</div><h3>감귤</h3><p>새콤달콤한 맛으로 제주를 대표하는 과일입니다.</p><div class="season">제철: 가을~겨울</div></div>
+        <div class="item"><div class="emoji">🍋</div><h3>한라봉</h3><p>향이 진하고 과즙이 풍부한 만감류입니다.</p><div class="season">제철: 겨울~봄</div></div>
+        <div class="item"><div class="emoji">🐖</div><h3>흑돼지</h3><p>쫄깃하고 고소한 맛의 제주 대표 고기입니다.</p><div class="season">제철: 사계절</div></div>
+        <div class="item"><div class="emoji">🐟</div><h3>갈치</h3><p>은빛 갈치로 만드는 구이와 조림이 인기입니다.</p><div class="season">제철: 여름~가을</div></div>
+        <div class="item"><div class="emoji">🍡</div><h3>오메기떡</h3><p>차조로 만든 쫀득한 제주 전통 떡입니다.</p><div class="season">제철: 사계절</div></div>
+        <div class="item"><div class="emoji">🥜</div><h3>당근·감자·마늘</h3><p>제주 땅에서 자란 신선한 농산물입니다.</p><div class="season">제철: 품목별 상이</div></div>
+      </div>
     </section>
-    <section data-panel="life" class="cards" hidden>
-      <article class="card">
-        <h2>🌊 매일이 여행 같은 캠퍼스 라이프</h2>
-        <p>
-          8. 수업이 끝나면 만나는 제주의 푸른 하늘이 있습니다.<br>
-          9. 캠퍼스 곳곳에서 계절의 변화를 느낄 수 있습니다.<br>
-          10. 동아리와 학생 활동으로 대학 생활이 풍성해집니다.<br>
-          11. 친구와 함께하는 도서관의 밤이 추억이 됩니다.<br>
-          12. 학교 근처 맛집과 카페가 일상의 즐거움이 됩니다.<br>
-          13. 주말엔 바다와 오름으로 떠나는 힐링 여행이 있습니다.<br>
-          14. 다양한 사람들과 어울리며 시야가 넓어집니다.
-        </p>
-      </article>
-    </section>
-    <section data-panel="future" class="cards" hidden>
-      <article class="card">
-        <h2>🚀 꿈을 현실로 만드는 진로와 미래</h2>
-        <p>
-          15. 전공 공부와 현장 경험을 함께 쌓을 수 있습니다.<br>
-          16. 새로운 아이디어에 도전하는 학생을 응원합니다.<br>
-          17. 세계로 뻗어 나가는 글로벌 인재를 꿈꿉니다.<br>
-          18. 지역 사회에 기여하는 따뜻한 리더로 성장합니다.<br>
-          19. 오늘의 노력이 내일의 가능성이 됩니다.<br>
-          20. 당신의 이야기가 제주대학교에서 빛나기를 바랍니다. ✨
-        </p>
-      </article>
-    </section>
-    <div class="card like-card">
+
+    <article id="story">
+      <h2>📖 제주의 맛 이야기</h2>
+      <p>화산섬 제주의 토양과 따뜻한 바닷바람은 독특한 맛을 가진 농수산물을 길러냅니다. 정성껏 키운 특산물은 선물용으로도, 집밥 재료로도 사랑받고 있습니다.</p>
+      <p>특산물을 더 즐겁게 고르는 방법</p>
+      <ul>
+        <li>제철 시기를 확인하면 가장 맛있을 때 먹을 수 있어요.</li>
+        <li>선물용은 포장과 배송 기간을 미리 살펴보세요.</li>
+        <li>여행 중 시장과 직판장을 들러 직접 맛보고 고르는 것도 좋아요.</li>
+      </ul>
+    </article>
+
+    <aside id="season">
+      <h2>📅 제철 달력</h2>
+      <ul>
+        <li>🍊 11~1월 : 감귤</li>
+        <li>🍋 1~4월 : 한라봉</li>
+        <li>🐟 7~10월 : 갈치</li>
+        <li>🍡 연중 : 오메기떡</li>
+      </ul>
+      <h2>👍 이 사이트가 좋았다면</h2>
       <button id="likeBtn" class="like-btn">❤️ 좋아요 <span id="likeCount">0</span></button>
-    </div>
-  </main>
+    </aside>
 
-  <footer>
-    <div class="card">© 2026 내 취향 카드 · 만든 사람: 나</div>
-  </footer>
+    <footer>
+      © 2026 제주 특산물 홍보관 · 제철과 가격은 변동될 수 있으니 구매 전 확인해 주세요.
+    </footer>
+  </div>
 
   <script>
-    const tabs = document.querySelectorAll('#menu button');
-    const panels = document.querySelectorAll('[data-panel]');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.toggle('active', t === tab));
-        panels.forEach(p => { p.hidden = p.dataset.panel !== tab.dataset.tab; });
-      });
-    });
-
     let likes = 0;
     const likeCount = document.getElementById('likeCount');
     document.getElementById('likeBtn').addEventListener('click', () => {
