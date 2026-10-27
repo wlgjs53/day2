@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>반응형 메뉴</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: sans-serif; background: #f4f6f8; color: #222; }
+
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: #2e75b6; color: #fff;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; height: 56px;
+    }
+    .logo { font-size: 1.2rem; font-weight: bold; }
+
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+    nav a {
+      display: block; padding: 8px 16px; border-radius: 999px;
+      color: #fff; text-decoration: none; font-size: 1rem;
+    }
+    nav a:hover { background: rgba(255, 255, 255, 0.2); }
+    nav a.active { background: #fff; color: #2e75b6; font-weight: bold; }
+
+    .hamburger {
+      display: none; width: 44px; height: 44px; border: none; background: none;
+      cursor: pointer; padding: 10px; flex-direction: column; justify-content: space-between;
+    }
+    .hamburger span { display: block; height: 3px; background: #fff; border-radius: 2px; transition: transform 0.25s, opacity 0.25s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(10px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-10px) rotate(-45deg); }
+
+    main { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+    main h1 { font-size: clamp(1.4rem, 4vw, 2rem); margin: 0 0 12px; }
+    .panel { display: none; }
+    .panel.show { display: block; }
+    .card { background: #fff; border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); }
+    .card h2 { margin: 0 0 6px; font-size: 1.1rem; }
+    .card p { margin: 0; color: #555; }
+
+    @media (max-width: 720px) {
+      .hamburger { display: flex; }
+      nav {
+        position: absolute; top: 56px; left: 0; right: 0;
+        background: #2e75b6; display: none;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      nav.open { display: block; }
+      nav ul { flex-direction: column; gap: 0; padding: 8px 12px 12px; }
+      nav a { padding: 14px 12px; border-radius: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">📚 정보 모음</div>
+    <button class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="menu">
+      <ul>
+        <li><a href="#food" class="active" data-cat="food">🍜 음식</a></li>
+        <li><a href="#furniture" data-cat="furniture">🛋️ 가구</a></li>
+        <li><a href="#realty" data-cat="realty">🏠 부동산</a></li>
+        <li><a href="#stock" data-cat="stock">📈 주식</a></li>
+        <li><a href="#map" data-cat="map">🗺️ 지도</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="panel show" id="food">
+      <h1>🍜 음식</h1>
+      <div class="card"><h2>오늘의 맛집</h2><p>동네 맛집과 인기 메뉴를 모아 보세요.</p></div>
+      <div class="card"><h2>간단 레시피</h2><p>집에서 쉽게 만드는 요리를 소개합니다.</p></div>
+    </section>
+    <section class="panel" id="furniture">
+      <h1>🛋️ 가구</h1>
+      <div class="card"><h2>인테리어 아이디어</h2><p>공간별 가구 배치와 스타일을 살펴보세요.</p></div>
+      <div class="card"><h2>가구 고르는 팁</h2><p>크기, 소재, 예산을 비교해 보세요.</p></div>
+    </section>
+    <section class="panel" id="realty">
+      <h1>🏠 부동산</h1>
+      <div class="card"><h2>지역별 시세</h2><p>관심 지역의 매매·전월세 정보를 확인하세요.</p></div>
+      <div class="card"><h2>계약 체크리스트</h2><p>계약 전에 꼭 확인할 항목을 정리했습니다.</p></div>
+    </section>
+    <section class="panel" id="stock">
+      <h1>📈 주식</h1>
+      <div class="card"><h2>시장 동향</h2><p>주요 지수와 이슈를 한눈에 확인하세요.</p></div>
+      <div class="card"><h2>관심 종목</h2><p>관심 종목을 모아 변화를 살펴보세요.</p></div>
+    </section>
+    <section class="panel" id="map">
+      <h1>🗺️ 지도</h1>
+      <div class="card"><h2>내 주변 찾기</h2><p>가까운 장소와 길을 찾아 보세요.</p></div>
+      <div class="card"><h2>즐겨찾기 장소</h2><p>자주 가는 곳을 저장해 두세요.</p></div>
+    </section>
+  </main>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('menu');
+    const links = document.querySelectorAll('#menu a');
+    const panels = document.querySelectorAll('.panel');
+
+    function toggleMenu(open) {
+      menu.classList.toggle('open', open);
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+    }
+
+    hamburger.addEventListener('click', () => toggleMenu(!menu.classList.contains('open')));
+
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        links.forEach(l => l.classList.toggle('active', l === link));
+        panels.forEach(p => p.classList.toggle('show', p.id === link.dataset.cat));
+        toggleMenu(false);
+      });
+    });
+
+    window.addEventListener('resize', () => { if (window.innerWidth > 720) toggleMenu(false); });
+  </script>
+</body>
+</html>
