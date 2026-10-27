@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>화면 부품 지도</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: sans-serif; margin: 0; padding: 24px 16px; background: #eceff3; color: #222; }
+    h1 { font-size: 1.3rem; margin: 0 0 4px; }
+    .sub { color: #666; margin: 0 0 28px; font-size: 0.9rem; }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    .mock { background: #f5f7fa; border: 1px solid #ccd3dc; border-radius: 8px; padding: 14px; }
+    .part { position: relative; outline: 2px solid #e5484d; outline-offset: 4px; border-radius: 4px; margin: 34px 0 10px; }
+    .tag { position: absolute; top: -12px; left: 0; transform: translateY(-100%); background: #e5484d; color: #fff; font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+    .tag.in { top: 8px; left: 8px; transform: none; z-index: 1; }
+    .m-header { background: #2e75b6; color: #fff; text-align: center; padding: 18px 10px; border-radius: 4px; }
+    .m-header b { font-size: 1.3rem; display: block; }
+    .m-nav { display: flex; justify-content: center; gap: 8px; background: #fff; padding: 12px; }
+    .m-nav span { background: #eef2f7; padding: 6px 14px; border-radius: 999px; }
+    .m-nav span.on { background: #2e75b6; color: #fff; }
+    .m-card { background: #fff; border-radius: 10px; padding: 14px 16px; box-shadow: 0 1px 6px rgba(0,0,0,.1); font-size: 0.9rem; color: #555; }
+    .m-card h3 { margin: 0 0 6px; color: #222; font-size: 1rem; }
+    .m-footer { background: #fff; padding: 12px; text-align: center; font-size: 0.85rem; color: #666; border-radius: 4px; }
+    table { margin-top: 28px; border-collapse: collapse; width: 100%; background: #fff; }
+    th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; font-size: 0.9rem; }
+    th { background: #dfe7f1; }
+    .yes { color: #1a7f37; font-weight: bold; }
+    .no { color: #999; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>화면 부품 지도 (index.html · 내 취향 카드)</h1>
+  <p class="sub">빨간 테두리와 이름표가 붙은 곳이 index.html에서 찾은 부품입니다. (축소 모형)</p>
+
+  <div class="mock">
+    <div class="part"><span class="tag">헤더 (&lt;header&gt;)</span>
+      <div class="m-header"><b>내 취향 카드</b>제주대학교 홍보 문구</div></div>
+
+    <div class="part"><span class="tag">탭 · 버튼 (&lt;nav&gt; 안의 &lt;button&gt; 3개)</span>
+      <div class="m-nav"><span class="on">🎓 학교 소개</span><span>🌊 캠퍼스 라이프</span><span>🚀 진로와 미래</span></div></div>
+
+    <div class="part"><span class="tag">카드 (.card)</span>
+      <div class="m-card">
+        <h3>🎓 바다와 한라산 사이, 제주대학교</h3>
+        <div class="part" style="margin:30px 0 4px"><span class="tag">번호 줄 (목록처럼 보이지만 &lt;br&gt;로 나눈 문단)</span>
+          1. 푸른 바다와 한라산이 함께하는 대학...<br>2. 제주의 자연 속에서 꿈을 키우는...<br>3. 지역과 세계를 잇는 인재를...</div>
+      </div></div>
+
+    <div class="part"><span class="tag">카드 (푸터 안, .card)</span>
+      <div class="m-footer"><span style="background:#fff">© 2026 내 취향 카드 · 만든 사람: 나</span></div></div>
+    <div class="part" style="margin-top:6px"><span class="tag">푸터 (&lt;footer&gt;) — 위 카드를 감싸는 바깥 영역</span><div style="height:6px"></div></div>
+  </div>
+
+  <table>
+    <tr><th>이름표</th><th>index.html에 있나요?</th><th>위치</th></tr>
+    <tr><td>헤더</td><td class="yes">있음</td><td><code>&lt;header&gt;</code></td></tr>
+    <tr><td>카드</td><td class="yes">있음</td><td><code>.card</code> (본문 3개, 푸터 1개)</td></tr>
+    <tr><td>버튼</td><td class="yes">있음</td><td><code>#menu button</code> (탭 버튼 3개)</td></tr>
+    <tr><td>입력창</td><td class="no">없음</td><td>-</td></tr>
+    <tr><td>탭</td><td class="yes">있음</td><td><code>&lt;nav id="menu"&gt;</code> (학교 소개 / 캠퍼스 라이프 / 진로와 미래)</td></tr>
+    <tr><td>목록</td><td class="no">없음 (번호 매긴 문단만 있음)</td><td><code>&lt;ul&gt;</code>·<code>&lt;ol&gt;</code> 태그는 없음</td></tr>
+  </table>
+</div>
+</body>
+</html>

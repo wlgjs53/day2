@@ -1,39 +1,164 @@
 <!DOCTYPE html>
-<html 2ang="ko">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>카운터</title>
+  <title>내 취향 카드</title>
   <style>
+    * { box-sizing: border-box; }
     body {
+      margin: 0;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
       font-family: sans-serif;
+      background: #f5f7fa;
+      color: #222;
     }
-    #count {
-      font-size: 4rem;
-      margin-bottom: 1rem;
+    header {
+      background: #2e75b6;
+      color: #fff;
+      padding: 24px 16px;
+      text-align: center;
     }
-    button {
-      font-size: 1.5rem;
-      padding: 0.5rem 1.5rem;
+    header h1 { margin: 0 0 4px; font-size: 1.6rem; }
+    header p { margin: 0; opacity: 0.9; }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #fff;
+      border-bottom: 1px solid #dde3ea;
+    }
+    nav button {
+      border: none;
+      background: #eef2f7;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 1rem;
       cursor: pointer;
     }
+    nav button.active { background: #2e75b6; color: #fff; }
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 16px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    .card h2 { margin: 0 0 6px; font-size: 1.1rem; }
+    .card p { margin: 0; color: #555; }
+    footer {
+      padding: 16px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+      border-top: 1px solid #dde3ea;
+      background: #fff;
+    }
+    .like-card { text-align: center; }
+    .like-btn {
+      border: none;
+      background: #ffe3e8;
+      color: #d6336c;
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    .like-btn:hover { background: #ffd0da; }
+    .like-btn:active { transform: scale(0.96); }
+    [hidden] { display: none !important; }
   </style>
 </head>
 <body>
-  <div id="count">0</div>
-  <button id="btn">+2</button>
+  <header>
+    <h1>내 취향 카드</h1>
+    <p>제주대학교 홍보 문구</p>
+  </header>
+
+  <nav id="menu">
+    <button class="active" data-tab="intro">🎓 학교 소개</button>
+    <button data-tab="life">🌊 캠퍼스 라이프</button>
+    <button data-tab="future">🚀 진로와 미래</button>
+  </nav>
+
+  <main>
+    <section data-panel="intro" class="cards">
+      <article class="card">
+        <h2>🎓 바다와 한라산 사이, 제주대학교</h2>
+        <p>
+          1. 푸른 바다와 한라산이 함께하는 대학, 제주대학교입니다.<br>
+          2. 제주의 자연 속에서 꿈을 키우는 국립대학교입니다.<br>
+          3. 지역과 세계를 잇는 인재를 길러냅니다.<br>
+          4. 배움의 깊이를 더하는 열린 캠퍼스입니다.<br>
+          5. 도전하는 학생에게 아낌없이 응원을 보냅니다.<br>
+          6. 제주의 내일을 이끌 주인공을 기다립니다.<br>
+          7. 함께 성장하는 즐거움, 제주대에서 시작하세요.
+        </p>
+      </article>
+    </section>
+    <section data-panel="life" class="cards" hidden>
+      <article class="card">
+        <h2>🌊 매일이 여행 같은 캠퍼스 라이프</h2>
+        <p>
+          8. 수업이 끝나면 만나는 제주의 푸른 하늘이 있습니다.<br>
+          9. 캠퍼스 곳곳에서 계절의 변화를 느낄 수 있습니다.<br>
+          10. 동아리와 학생 활동으로 대학 생활이 풍성해집니다.<br>
+          11. 친구와 함께하는 도서관의 밤이 추억이 됩니다.<br>
+          12. 학교 근처 맛집과 카페가 일상의 즐거움이 됩니다.<br>
+          13. 주말엔 바다와 오름으로 떠나는 힐링 여행이 있습니다.<br>
+          14. 다양한 사람들과 어울리며 시야가 넓어집니다.
+        </p>
+      </article>
+    </section>
+    <section data-panel="future" class="cards" hidden>
+      <article class="card">
+        <h2>🚀 꿈을 현실로 만드는 진로와 미래</h2>
+        <p>
+          15. 전공 공부와 현장 경험을 함께 쌓을 수 있습니다.<br>
+          16. 새로운 아이디어에 도전하는 학생을 응원합니다.<br>
+          17. 세계로 뻗어 나가는 글로벌 인재를 꿈꿉니다.<br>
+          18. 지역 사회에 기여하는 따뜻한 리더로 성장합니다.<br>
+          19. 오늘의 노력이 내일의 가능성이 됩니다.<br>
+          20. 당신의 이야기가 제주대학교에서 빛나기를 바랍니다. ✨
+        </p>
+      </article>
+    </section>
+    <div class="card like-card">
+      <button id="likeBtn" class="like-btn">❤️ 좋아요 <span id="likeCount">0</span></button>
+    </div>
+  </main>
+
+  <footer>
+    <div class="card">© 2026 내 취향 카드 · 만든 사람: 나</div>
+  </footer>
+
   <script>
-    let count = 0;
-    const countEl = document.getElementById('count');
-    document.getElementById('btn').addEventListener('click', () => {
-      count += 2;
-      countEl.textContent = count;
+    const tabs = document.querySelectorAll('#menu button');
+    const panels = document.querySelectorAll('[data-panel]');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.toggle('active', t === tab));
+        panels.forEach(p => { p.hidden = p.dataset.panel !== tab.dataset.tab; });
+      });
+    });
+
+    let likes = 0;
+    const likeCount = document.getElementById('likeCount');
+    document.getElementById('likeBtn').addEventListener('click', () => {
+      likes++;
+      likeCount.textContent = likes;
     });
   </script>
 </body>
